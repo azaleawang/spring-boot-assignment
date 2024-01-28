@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.example.cathayassignment.demos.web;
+package com.azalea.cathayassignment.demos.web;
 
 /**
  * @author <a href="mailto:chenxilzx1@gmail.com">theonefx</a>

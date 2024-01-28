@@ -1,10 +1,10 @@
-package org.example.cathayassignment;
+package com.azalea.cathayassignment;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class CathayAssignmentApplicationTests {
+class DatabaseApplicationTests {
 
     @Test
     void contextLoads() {
