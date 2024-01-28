@@ -1,1 +1,0 @@
-insert into currency (code, zh_code) values ('Bitcoin', '比特幣' )
