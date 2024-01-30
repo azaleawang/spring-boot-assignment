@@ -6,9 +6,11 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CurrencyService {
-    CurrencyEntity createCurrency(CurrencyEntity currencyEntity);
+    CurrencyEntity save(CurrencyEntity currencyEntity);
 
     List<CurrencyEntity> findAll();
 
     Optional<CurrencyEntity> findOne(String code);
+
+    boolean isExists(String code);
 }

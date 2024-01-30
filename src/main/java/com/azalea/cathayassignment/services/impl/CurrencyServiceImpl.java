@@ -19,7 +19,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
-    public CurrencyEntity createCurrency(CurrencyEntity currencyEntity) {
+    public CurrencyEntity save(CurrencyEntity currencyEntity) {
         return currencyRepository.save(currencyEntity);
     }
 
@@ -35,5 +35,10 @@ public class CurrencyServiceImpl implements CurrencyService {
     @Override
     public Optional<CurrencyEntity> findOne(String code) {
         return currencyRepository.findByCode(code);
+    }
+
+    @Override
+    public boolean isExists(String code) {
+        return currencyRepository.existsByCode(code);
     }
 }

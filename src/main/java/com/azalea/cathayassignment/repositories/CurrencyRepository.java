@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface CurrencyRepository extends CrudRepository<CurrencyEntity, Long> {
 
     Optional<CurrencyEntity> findByCode(String code);
+
+    boolean existsByCode(String code);
 }

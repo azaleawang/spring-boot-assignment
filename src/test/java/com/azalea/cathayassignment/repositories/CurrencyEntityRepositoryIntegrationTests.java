@@ -24,7 +24,7 @@ public class CurrencyEntityRepositoryIntegrationTests {
 
     @Test
     public void testCurrencyCreatedAndRecalled() {
-        CurrencyEntity currencyEntity = TestDataUtil.createTestCurrency();
+        CurrencyEntity currencyEntity = TestDataUtil.createTestCurrencyA();
         underTest.save(currencyEntity);
         Optional<CurrencyEntity> result = underTest.findById(currencyEntity.getId());
         assertThat(result).isPresent();
@@ -33,7 +33,7 @@ public class CurrencyEntityRepositoryIntegrationTests {
 
     @Test
     public void testCurrencyUpdated() {
-        CurrencyEntity currencyEntity = TestDataUtil.createTestCurrency();
+        CurrencyEntity currencyEntity = TestDataUtil.createTestCurrencyA();
         underTest.save(currencyEntity);
         currencyEntity.setZh_code("位元幣");
         underTest.save(currencyEntity);
@@ -44,7 +44,7 @@ public class CurrencyEntityRepositoryIntegrationTests {
 
     @Test
     public void testCurrencyDeleted() {
-        CurrencyEntity currencyEntity = TestDataUtil.createTestCurrency();
+        CurrencyEntity currencyEntity = TestDataUtil.createTestCurrencyA();
         underTest.save(currencyEntity);
         underTest.deleteById(currencyEntity.getId());
         Optional<CurrencyEntity> result = underTest.findById(currencyEntity.getId());

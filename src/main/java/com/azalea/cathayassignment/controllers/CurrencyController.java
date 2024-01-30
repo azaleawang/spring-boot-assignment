@@ -54,12 +54,29 @@ public class CurrencyController {
     @PostMapping(path = "/currency")
     public ResponseEntity<CurrencyDto> createCurrency(@RequestBody CurrencyDto currency) {
         CurrencyEntity currencyEntity = currencyMapper.mapFrom(currency);
-        CurrencyEntity savedCurrencyEntity = currencyService.createCurrency(currencyEntity);
+        CurrencyEntity savedCurrencyEntity = currencyService.save(currencyEntity);
         return new ResponseEntity<>(currencyMapper.mapTo(savedCurrencyEntity), HttpStatus.CREATED);
     }
 
-//    @PutMapping(path = "/currency/{code}")
-//    public ResponseEntity<CurrencyDto> updateCurrency(@PathVariable("code") String code) {
-//
-//    }
+    @PutMapping(path = "/currency/{code}")
+    public ResponseEntity<CurrencyDto> fullUpdateCurrency(
+            @PathVariable("code") String code,
+            @RequestBody CurrencyDto currencyDto) {
+        if (!currencyService.isExists(code)) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        Optional<CurrencyEntity> foundCurrency = currencyService.findOne(code);
+        if (!foundCurrency.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+
+        currencyDto.setId(foundCurrency.get().getId());
+        CurrencyEntity currencyEntity = currencyMapper.mapFrom(currencyDto);
+        CurrencyEntity savedCurrencyEntity = currencyService.save(currencyEntity);
+        return new ResponseEntity<>(
+                currencyMapper.mapTo(savedCurrencyEntity),
+                HttpStatus.OK);
+
+    }
 }
