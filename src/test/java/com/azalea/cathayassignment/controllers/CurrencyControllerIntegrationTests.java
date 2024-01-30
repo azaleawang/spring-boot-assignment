@@ -2,6 +2,7 @@ package com.azalea.cathayassignment.controllers;
 
 import com.azalea.cathayassignment.TestDataUtil;
 import com.azalea.cathayassignment.domain.entities.CurrencyEntity;
+import com.azalea.cathayassignment.services.CurrencyService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,16 +16,20 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import javax.print.attribute.standard.Media;
+
 @SpringBootTest
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
 public class CurrencyControllerIntegrationTests {
+    private CurrencyService currencyService;
     private MockMvc mockMvc;
     private ObjectMapper objectMapper;
 
     @Autowired
-    public CurrencyControllerIntegrationTests(MockMvc mockMvc) {
+    public CurrencyControllerIntegrationTests(MockMvc mockMvc, CurrencyService currencyService) {
+        this.currencyService = currencyService;
         this.mockMvc = mockMvc;
         this.objectMapper = new ObjectMapper();
     }
@@ -59,4 +64,68 @@ public class CurrencyControllerIntegrationTests {
                 MockMvcResultMatchers.jsonPath("$.zh_code").value("比特幣")
         );
     }
+
+    @Test
+    public void testListCurrenciesReturnHttp200() throws Exception {
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/currency")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void testListCurrenciesReturnListCurrencies() throws Exception {
+        CurrencyEntity currencyEntity = TestDataUtil.createTestCurrency();
+        currencyService.createCurrency(currencyEntity);
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/currency")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].id").isNumber()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].code").value("Bitcoin")
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$[0].zh_code").value("比特幣")
+        );
+    }
+
+    @Test
+    public void testGetCurrencyReturnHttp200WhenExist() throws Exception {
+        CurrencyEntity currencyEntity = TestDataUtil.createTestCurrency();
+        currencyService.createCurrency(currencyEntity);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/currency/Bitcoin")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void testGetCurrencyReturnHttp404WhenNotExist() throws Exception {
+        CurrencyEntity currencyEntity = TestDataUtil.createTestCurrency();
+        currencyService.createCurrency(currencyEntity);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/currency/abc")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
+
+    @Test
+    public void testGetCurrencyReturnCurrencyWhenExist() throws Exception {
+        CurrencyEntity currencyEntity = TestDataUtil.createTestCurrency();
+        currencyService.createCurrency(currencyEntity);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/currency/Bitcoin")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.id").isNumber()
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.code").value("Bitcoin")
+        ).andExpect(
+                MockMvcResultMatchers.jsonPath("$.zh_code").value("比特幣")
+        );
+    }
+
 }

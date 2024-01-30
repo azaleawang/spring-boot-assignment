@@ -9,6 +9,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @RestController
 @Log
 public class CurrencyController {
@@ -29,6 +33,24 @@ public class CurrencyController {
 //                .build();
 //    }
 
+    @GetMapping(path = "/currency")
+    public List<CurrencyDto> listCurrencies() {
+        List<CurrencyEntity> currencies = currencyService.findAll();
+        return currencies.stream()
+                .map(currencyMapper::mapTo)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping(path = "/currency/{code}")
+    public ResponseEntity<CurrencyDto> getCurrency(@PathVariable("code") String code) {
+        Optional<CurrencyEntity> foundCurrency = currencyService.findOne(code);
+        return foundCurrency.map(currencyEntity -> {
+            CurrencyDto currencyDto = currencyMapper.mapTo(currencyEntity);
+            return new ResponseEntity<>(currencyDto, HttpStatus.OK);
+        }).orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+
+    }
+
     @PostMapping(path = "/currency")
     public ResponseEntity<CurrencyDto> createCurrency(@RequestBody CurrencyDto currency) {
         CurrencyEntity currencyEntity = currencyMapper.mapFrom(currency);
@@ -36,8 +58,8 @@ public class CurrencyController {
         return new ResponseEntity<>(currencyMapper.mapTo(savedCurrencyEntity), HttpStatus.CREATED);
     }
 
-    @PutMapping(path = "/currency/{code}")
-    public ResponseEntity<CurrencyEntity> updateCurrency(@PathVariable("code") String code) {
-
-    }
+//    @PutMapping(path = "/currency/{code}")
+//    public ResponseEntity<CurrencyDto> updateCurrency(@PathVariable("code") String code) {
+//
+//    }
 }
