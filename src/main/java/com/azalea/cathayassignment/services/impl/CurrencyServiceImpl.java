@@ -39,11 +39,6 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
-    public boolean isExists(String code) {
-        return currencyRepository.existsByCode(code);
-    }
-
-    @Override
     @Transactional
     public void delete(String code) {
         currencyRepository.deleteByCode(code);
