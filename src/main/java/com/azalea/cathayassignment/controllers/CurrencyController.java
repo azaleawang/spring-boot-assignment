@@ -53,7 +53,13 @@ public class CurrencyController {
 
     @PostMapping(path = "/currency")
     public ResponseEntity<CurrencyDto> createCurrency(@RequestBody CurrencyDto currency) {
+
         CurrencyEntity currencyEntity = currencyMapper.mapFrom(currency);
+        // TODO write test for 404
+        Optional<CurrencyEntity> foundCurrency = currencyService.findOne(currencyEntity.getCode());
+        if (foundCurrency.isPresent()) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
         CurrencyEntity savedCurrencyEntity = currencyService.save(currencyEntity);
         return new ResponseEntity<>(currencyMapper.mapTo(savedCurrencyEntity), HttpStatus.CREATED);
     }
@@ -62,9 +68,6 @@ public class CurrencyController {
     public ResponseEntity<CurrencyDto> fullUpdateCurrency(
             @PathVariable("code") String code,
             @RequestBody CurrencyDto currencyDto) {
-        if (!currencyService.isExists(code)) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
 
         Optional<CurrencyEntity> foundCurrency = currencyService.findOne(code);
         if (!foundCurrency.isPresent()) {
@@ -77,6 +80,12 @@ public class CurrencyController {
         return new ResponseEntity<>(
                 currencyMapper.mapTo(savedCurrencyEntity),
                 HttpStatus.OK);
-
     }
+
+    @DeleteMapping(path = "/currency/{code}")
+    public ResponseEntity deleteCurrency(@PathVariable("code") String code) {
+        currencyService.delete(code);
+        return new ResponseEntity(HttpStatus.NO_CONTENT);
+    }
+
 }

@@ -5,6 +5,7 @@ import com.azalea.cathayassignment.repositories.CurrencyRepository;
 import com.azalea.cathayassignment.services.CurrencyService;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -41,4 +42,11 @@ public class CurrencyServiceImpl implements CurrencyService {
     public boolean isExists(String code) {
         return currencyRepository.existsByCode(code);
     }
+
+    @Override
+    @Transactional
+    public void delete(String code) {
+        currencyRepository.deleteByCode(code);
+    }
+
 }

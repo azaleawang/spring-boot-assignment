@@ -192,4 +192,23 @@ public class CurrencyControllerIntegrationTests {
         );
     }
 
+    @Test
+    public void testDeleteCurrencyReturnHttp204WhenExist() throws Exception {
+        CurrencyEntity testCurrencyEntityA = TestDataUtil.createTestCurrencyA();
+        CurrencyEntity savedAuthor = currencyService.save(testCurrencyEntityA);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.delete("/currency/" + savedAuthor.getCode())
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
+
+    @Test
+    public void testDeleteCurrencyReturnHttp204WhenNotExist() throws Exception {
+        mockMvc.perform(
+                MockMvcRequestBuilders.delete("/currency/" + "asd")
+                        .contentType(MediaType.APPLICATION_JSON)
+        ).andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
+
 }

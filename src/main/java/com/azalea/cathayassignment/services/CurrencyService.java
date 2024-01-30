@@ -13,4 +13,7 @@ public interface CurrencyService {
     Optional<CurrencyEntity> findOne(String code);
 
     boolean isExists(String code);
+
+    void delete(String code);
+
 }
