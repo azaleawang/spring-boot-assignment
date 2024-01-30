@@ -7,10 +7,7 @@ import com.azalea.cathayassignment.services.CurrencyService;
 import lombok.extern.java.Log;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @Log
@@ -32,10 +29,15 @@ public class CurrencyController {
 //                .build();
 //    }
 
-    @PostMapping(path = "/price")
+    @PostMapping(path = "/currency")
     public ResponseEntity<CurrencyDto> createCurrency(@RequestBody CurrencyDto currency) {
         CurrencyEntity currencyEntity = currencyMapper.mapFrom(currency);
         CurrencyEntity savedCurrencyEntity = currencyService.createCurrency(currencyEntity);
         return new ResponseEntity<>(currencyMapper.mapTo(savedCurrencyEntity), HttpStatus.CREATED);
+    }
+
+    @PutMapping(path = "/currency/{code}")
+    public ResponseEntity<CurrencyEntity> updateCurrency(@PathVariable("code") String code) {
+
     }
 }

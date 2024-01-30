@@ -2,7 +2,6 @@ package com.azalea.cathayassignment.controllers;
 
 import com.azalea.cathayassignment.TestDataUtil;
 import com.azalea.cathayassignment.domain.entities.CurrencyEntity;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,7 +34,7 @@ public class CurrencyControllerIntegrationTests {
         CurrencyEntity testCurrency = TestDataUtil.createTestCurrency();
         testCurrency.setId(null);
         String currencyJson = objectMapper.writeValueAsString(testCurrency);
-        mockMvc.perform(MockMvcRequestBuilders.post("/price")
+        mockMvc.perform(MockMvcRequestBuilders.post("/currency")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(currencyJson)
         ).andExpect(
@@ -49,7 +48,7 @@ public class CurrencyControllerIntegrationTests {
         CurrencyEntity testCurrency = TestDataUtil.createTestCurrency();
         testCurrency.setId(null);
         String currencyJson = objectMapper.writeValueAsString(testCurrency);
-        mockMvc.perform(MockMvcRequestBuilders.post("/price")
+        mockMvc.perform(MockMvcRequestBuilders. post("/currency")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(currencyJson)
         ).andExpect(
