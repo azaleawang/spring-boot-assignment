@@ -48,7 +48,6 @@ public class CurrencyController {
     public ResponseEntity<CurrencyDto> createCurrency(@RequestBody CurrencyDto currency) {
 
         CurrencyEntity currencyEntity = currencyMapper.mapFrom(currency);
-        // TODO write test for 404
         Optional<CurrencyEntity> foundCurrency = currencyService.findOne(currencyEntity.getCode());
         if (foundCurrency.isPresent()) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
