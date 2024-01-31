@@ -1,19 +1,26 @@
 package com.azalea.cathayassignment.services.impl;
 
 import com.azalea.cathayassignment.domain.dto.CoinDeskResponse;
+import com.azalea.cathayassignment.domain.entities.CurrencyEntity;
+import com.azalea.cathayassignment.services.CurrencyService;
 import com.azalea.cathayassignment.services.CurrentPriceService;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
-import java.util.Map;
+import java.util.Optional;
 
 @Service
 public class CurrentPriceServiceImpl implements CurrentPriceService {
     private final String COINDESK_URL = "https://api.coindesk.com/v1/bpi/currentprice.json";
+    private final CurrencyService currencyService;
+
+    public CurrentPriceServiceImpl(CurrencyService currencyService) {
+        this.currencyService = currencyService;
+    }
+
     @Override
     public CoinDeskResponse getCurrentPrice() {
         RestTemplate restTemplate = new RestTemplate();
@@ -31,13 +38,16 @@ public class CurrentPriceServiceImpl implements CurrentPriceService {
             e.printStackTrace();
         }
 
-        // Add zh_code for each currency
-        Map<String, String> zhCodeMap = new HashMap<>();
-        zhCodeMap.put("USD", "美元");
-        zhCodeMap.put("GBP", "英鎊");
-        zhCodeMap.put("EUR", "歐元");
 
-        response.getBpi().forEach((key, value) -> value.setZhCode(zhCodeMap.get(key)));
+        // Add zh_code for each currency
+        response.getBpi().forEach((key, value) -> {
+            Optional<CurrencyEntity> foundCurrency = currencyService.findOne(key);
+            if (!foundCurrency.isPresent()) {
+                value.setZhCode("");
+            } else {
+                value.setZhCode(foundCurrency.get().getZh_code());
+            }
+        });
 
         return response;
     }
