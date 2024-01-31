@@ -14,7 +14,13 @@ public class CurrentPriceController {
         this.currentPriceService = currentPriceService;
     }
 
-    @GetMapping(path = "/current-price")
+    @GetMapping(path = "/api/v1/current-price")
+    public CoinDeskResponse getCoindeskApi() {
+        CoinDeskResponse priceResp = currentPriceService.getCurrentPrice();
+        return priceResp;
+    }
+
+    @GetMapping(path = "/api/v2/current-price")
     public CoinDeskResponse getCurrentPrice() {
         CoinDeskResponse priceResp = currentPriceService.getCurrentPrice();
         return currentPriceService.transformData(priceResp);

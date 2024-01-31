@@ -26,7 +26,7 @@ public class CurrencyController {
         this.currencyMapper = currencyMapper;
     }
 
-    @GetMapping(path = "/currency")
+    @GetMapping(path = "/api/v1/currency")
     public List<CurrencyDto> listCurrencies() {
         List<CurrencyEntity> currencies = currencyService.findAll();
         return currencies.stream()
@@ -34,7 +34,7 @@ public class CurrencyController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping(path = "/currency/{code}")
+    @GetMapping(path = "/api/v1/currency/{code}")
     public ResponseEntity<CurrencyDto> getCurrency(@PathVariable("code") String code) {
         Optional<CurrencyEntity> foundCurrency = currencyService.findOne(code);
         return foundCurrency.map(currencyEntity -> {
@@ -44,7 +44,7 @@ public class CurrencyController {
 
     }
 
-    @PostMapping(path = "/currency")
+    @PostMapping(path = "/api/v1/currency")
     public ResponseEntity<CurrencyDto> createCurrency(@RequestBody CurrencyDto currency) {
 
         CurrencyEntity currencyEntity = currencyMapper.mapFrom(currency);
@@ -57,7 +57,7 @@ public class CurrencyController {
         return new ResponseEntity<>(currencyMapper.mapTo(savedCurrencyEntity), HttpStatus.CREATED);
     }
 
-    @PutMapping(path = "/currency/{code}")
+    @PutMapping(path = "/api/v1/currency/{code}")
     public ResponseEntity<CurrencyDto> fullUpdateCurrency(
             @PathVariable("code") String code,
             @RequestBody CurrencyDto currencyDto) {
@@ -75,7 +75,7 @@ public class CurrencyController {
                 HttpStatus.OK);
     }
 
-    @DeleteMapping(path = "/currency/{code}")
+    @DeleteMapping(path = "/api/v1/currency/{code}")
     public ResponseEntity deleteCurrency(@PathVariable("code") String code) {
         currencyService.delete(code);
         return new ResponseEntity(HttpStatus.NO_CONTENT);
