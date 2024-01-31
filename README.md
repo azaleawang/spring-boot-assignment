@@ -4,7 +4,7 @@ A Spring Boot application for retrieving and transforming cryptocurrency data us
 
 ## Tasks
 ### 1. 呼叫coindesk的API，並進行資料轉換，組成新API
-回傳的資料與範例如下
+我自行設計之回傳格式如下，`zh_code` 表示幣別的中文名稱。
 ```json
 {
     "time": {
