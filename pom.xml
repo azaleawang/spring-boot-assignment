@@ -73,8 +73,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
-                    <mainClass>com.azalea.cathayassignment.DatabaseApplication</mainClass>
-                    <skip>true</skip>
+                    <mainClass>com.azalea.cathayassignment.Application</mainClass>
                 </configuration>
                 <executions>
                     <execution>
