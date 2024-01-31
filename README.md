@@ -34,6 +34,9 @@ A Spring Boot application for retrieving and transforming cryptocurrency data us
 ### 2. 建立一張幣別與其對應中文名稱的資料表（需附建立SQL語法），並提供 查詢 / 新增 / 修改 / 刪除 功能API
 請見 `src/main/resources/schema.sql`，以及初始化資料 `src/main/resources/data.sql`
 
+### 3. 單元測試
+各個API的測試請見 `src/test/`。
+
 ## API Endpoints
 
 The application provides the following RESTful endpoints:
