@@ -127,23 +127,6 @@ public class CurrencyControllerIntegrationTests {
         );
     }
 
-//    @Test
-//    public void testFullUpdateCurrencyWhenExist() throws Exception {
-//        CurrencyEntity currencyEntity = TestDataUtil.createTestCurrencyA();
-//        currencyService.save(currencyEntity);
-//
-//        mockMvc.perform(
-//                MockMvcRequestBuilders.put("/currency/Bitcoin")
-//                        .contentType(MediaType.APPLICATION_JSON)
-//        ).andExpect(
-//                MockMvcResultMatchers.jsonPath("$.id").isNumber()
-//        ).andExpect(
-//                MockMvcResultMatchers.jsonPath("$.code").value("Bitcoin")
-//        ).andExpect(
-//                MockMvcResultMatchers.jsonPath("$.zh_code").value("比特幣")
-//        );
-//    }
-
     @Test
     public void testFullUpdateCurrencyReturnHttp200WhenExist() throws Exception {
         CurrencyEntity testCurrencyEntity = TestDataUtil.createTestCurrencyA();

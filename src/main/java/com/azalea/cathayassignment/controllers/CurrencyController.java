@@ -17,9 +17,9 @@ import java.util.stream.Collectors;
 @Log
 public class CurrencyController {
 
-    private CurrencyService currencyService;
+    private final CurrencyService currencyService;
 
-    private Mapper<CurrencyEntity, CurrencyDto> currencyMapper;
+    private final Mapper<CurrencyEntity, CurrencyDto> currencyMapper;
 
     public CurrencyController(CurrencyService currencyService, Mapper<CurrencyEntity, CurrencyDto> currencyMapper) {
         this.currencyService = currencyService;

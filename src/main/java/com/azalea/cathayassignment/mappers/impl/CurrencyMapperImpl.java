@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class CurrencyMapperImpl implements Mapper<CurrencyEntity, CurrencyDto> {
 
-    private ModelMapper modelMapper;
+    private final ModelMapper modelMapper;
 
     public CurrencyMapperImpl(ModelMapper modelMapper) {
         this.modelMapper = modelMapper;
