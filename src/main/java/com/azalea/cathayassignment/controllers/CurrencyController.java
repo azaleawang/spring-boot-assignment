@@ -20,18 +20,11 @@ public class CurrencyController {
     private CurrencyService currencyService;
 
     private Mapper<CurrencyEntity, CurrencyDto> currencyMapper;
+
     public CurrencyController(CurrencyService currencyService, Mapper<CurrencyEntity, CurrencyDto> currencyMapper) {
         this.currencyService = currencyService;
         this.currencyMapper = currencyMapper;
     }
-//    @GetMapping(path = "/price")
-//    public Currency retrievePrice() {
-//        return Currency.builder()
-//                .id(1L)
-//                .code("Bitcoin")
-//                .zh_code("比特幣")
-//                .build();
-//    }
 
     @GetMapping(path = "/currency")
     public List<CurrencyDto> listCurrencies() {

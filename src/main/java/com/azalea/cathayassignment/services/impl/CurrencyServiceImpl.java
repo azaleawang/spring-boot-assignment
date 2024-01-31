@@ -15,6 +15,7 @@ import java.util.stream.StreamSupport;
 public class CurrencyServiceImpl implements CurrencyService {
 
     private CurrencyRepository currencyRepository;
+
     public CurrencyServiceImpl(CurrencyRepository currencyRepository) {
         this.currencyRepository = currencyRepository;
     }
